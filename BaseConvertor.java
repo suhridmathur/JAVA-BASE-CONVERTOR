@@ -91,13 +91,13 @@ public class BaseConvertor extends Frame implements ActionListener,ItemListener
 		add(convert);		
 		add(dev);
 
-		/* addWindowListener(new WindowAdapter()
+		 addWindowListener(new WindowAdapter()
 		{
   			public void windowClosing(WindowEvent we)
   			{
   				System.exit(0);
   			}
- 		});*/
+ 		});
 
 		this.setLocation(350,150);
 		this.setResizable(false);
