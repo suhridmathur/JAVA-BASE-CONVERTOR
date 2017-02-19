@@ -27,7 +27,7 @@ public class BaseConvertor extends Frame implements ActionListener,ItemListener
 		baseConvertorFont=new Font("Lucida Sans",Font.BOLD,24);
 		baseFont = new Font("Lucida Sans",Font.BOLD,15);	
 		
-		dev=new Label("DEVELOPED BY SUHRID MATHUR :P");
+		dev=new Label("DEVELOPED BY SUHRID MATHUR");
 		dev.setBounds(270,460,220,50);
 		dev.setFont(dev1);
 
@@ -54,7 +54,7 @@ public class BaseConvertor extends Frame implements ActionListener,ItemListener
 		c2=new Choice(); c2.addItem("Select:");
 		
 
-		for(i=2;i<=10;i++)
+		for(i=2;i<=20;i++)
 		{
 			c1.addItem(""+i);
 			c2.addItem(""+i);
@@ -91,6 +91,14 @@ public class BaseConvertor extends Frame implements ActionListener,ItemListener
 		add(convert);		
 		add(dev);
 
+		/* addWindowListener(new WindowAdapter()
+		{
+  			public void windowClosing(WindowEvent we)
+  			{
+  				System.exit(0);
+  			}
+ 		});*/
+
 		this.setLocation(350,150);
 		this.setResizable(false);
 		setSize(500,500);
@@ -107,7 +115,7 @@ public class BaseConvertor extends Frame implements ActionListener,ItemListener
 		
 		else
 		{
-
+	
 			if(baseInput==0 || baseOutput==0 || c1.getSelectedItem()=="Select:" ||c2.getSelectedItem()=="Select:")
 			{	
 				answer.setText("Invalid Input");
@@ -119,14 +127,35 @@ public class BaseConvertor extends Frame implements ActionListener,ItemListener
 				query1=query.getText();
 				boolean flag=true;
 				
-				for(i=0;i<query1.length();i++)
+				if(baseInput>10)
 				{
-					int ascii = (int) query1.charAt(i);
-					if(ascii<48 || ascii >57 || ((ascii-48)>=baseInput))
+					for(i=0;i<query1.length();i++)
 					{
-					answer.setText("Invalid Input");	
-						flag=false;
-						break;
+						int ascii = (int) query1.charAt(i);
+						if(ascii<48 || ((ascii-48)>=baseInput && ascii <57 ) || ascii > 65+(baseInput-10))
+						{
+							answer.setText("Invalid Input");
+							flag=false;
+							break;
+						}
+		
+												
+						
+
+					}
+				}
+				
+				else
+				{				
+					for(i=0;i<query1.length();i++)
+					{
+						int ascii = (int) query1.charAt(i);
+						if(ascii<48 || ascii >57 || ((ascii-48)>=baseInput))
+						{
+						answer.setText("Invalid Input");	
+							flag=false;
+							break;
+						}
 					}
 				}
 		
@@ -135,16 +164,37 @@ public class BaseConvertor extends Frame implements ActionListener,ItemListener
 					//System.out.println(query1);	
 
 					answer.setText(" ");
-					input=Integer.parseInt(query.getText());
+					//input=Integer.parseInt(query.getText());
 					//System.out.println("Number="+input);
 					int x=0;
 					int l;
-					for(i=query1.length()-1;i>=0;i--)
+					if(baseInput>10)
 					{
-						int ascii=(int)query1.charAt(i);
-						l=(ascii-48);
-						base10+=l*Math.pow(baseInput,x);
-						x++;
+						for(i=query1.length()-1;i>=0;i--)
+						{
+							int ascii=(int)query1.charAt(i);
+							if(ascii>64)
+							{
+								l=ascii-55;
+							}
+							else
+							{
+								l=(ascii-48);
+							}
+							base10+=l*Math.pow(baseInput,x);
+							x++;
+						}
+					}
+
+					else
+					{
+						for(i=query1.length()-1;i>=0;i--)
+						{
+							int ascii=(int)query1.charAt(i);
+							l=(ascii-48);
+							base10+=l*Math.pow(baseInput,x);
+							x++;
+						}
 					}
 				
 					//System.out.println(base10);
@@ -153,7 +203,18 @@ public class BaseConvertor extends Frame implements ActionListener,ItemListener
 					while(base10!=0)
 					{
 						int remainder=base10%baseOutput;
-						answer1=""+remainder+answer1;
+						if(remainder>9)
+						{
+							int n=remainder-9+64;
+							char m=(char)n;
+							answer1=""+m+answer1;
+						}
+
+						else
+						{
+							answer1=""+remainder+answer1;
+						}
+
 						base10=base10/baseOutput;
 								
 					}
